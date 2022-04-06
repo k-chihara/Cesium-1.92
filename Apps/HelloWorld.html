@@ -34,7 +34,11 @@
           url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg'
         })
       });
-      const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());  
+      const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      
+      document.getElementById('cesiumContainer').addEventListener('contextmenu',function (e){
+        console.log("右クリックイベント発生")
+      });
     </script>
   </body>
 </html>
