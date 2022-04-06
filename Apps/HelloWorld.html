@@ -36,7 +36,7 @@
       });
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
       
-      document.getElementById('cesiumContainer').addEventListener('contextmenu',function (e){
+      document.getElementsByTagName('canvas')[0].addEventListener('contextmenu',function (e){
         console.log("右クリックイベント発生")
       });
     </script>
