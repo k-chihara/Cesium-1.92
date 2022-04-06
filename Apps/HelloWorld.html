@@ -30,7 +30,7 @@
     <script>
       // const viewer = new Cesium.Viewer("cesiumContainer");
       var viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: new Cesium.OpenStreetMapImageryProvider({
+        imageryProvider: new Cesium.UrlTemplateImageryProvider({
           url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg'
         })
       });
