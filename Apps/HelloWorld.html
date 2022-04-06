@@ -30,7 +30,7 @@
     <script>
       // const viewer = new Cesium.Viewer("cesiumContainer");
       const viewer = new Cesium.Viewer('cesiumContainer', {
-          imageryProvider: new Cesium.createOpenStreetMapImageryProvider({
+          imageryProvider: Cesium.createOpenStreetMapImageryProvider({
           url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/',
           credit: new Cesium.Credit('地理院タイル', '', 'https://maps.gsi.go.jp/development/ichiran.html')
         }),
