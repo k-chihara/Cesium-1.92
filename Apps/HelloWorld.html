@@ -32,10 +32,7 @@
       var viewer = new Cesium.Viewer('cesiumContainer', {
         imageryProvider: new Cesium.OpenStreetMapImageryProvider({
           url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/'
-        }),
-        baseLayerPicker: false,
-        geocoder: false,
-        homeButton: false
+        })
       });
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());  
     </script>
