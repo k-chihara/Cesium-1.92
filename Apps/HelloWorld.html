@@ -29,6 +29,7 @@
     <div id="cesiumContainer"></div>
     <script>
       const viewer = new Cesium.Viewer("cesiumContainer");
+      const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());  
     </script>
   </body>
 </html>
