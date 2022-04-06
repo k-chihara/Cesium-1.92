@@ -33,7 +33,7 @@
         imageryProvider: Cesium.createOpenStreetMapImageryProvider({
           url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/',
           credit: new Cesium.Credit('地理院タイル', '', 'https://maps.gsi.go.jp/development/ichiran.html')
-        }),
+        })
       });
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());  
     </script>
