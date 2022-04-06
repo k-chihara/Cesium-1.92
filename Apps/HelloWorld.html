@@ -31,11 +31,9 @@
       // const viewer = new Cesium.Viewer("cesiumContainer");
       const viewer = new Cesium.Viewer('cesiumContainer', {
         imageryProvider: Cesium.createOpenStreetMapImageryProvider({
-          url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/'
+          url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/',
+          credit: new Cesium.Credit('地理院タイル', '', 'https://maps.gsi.go.jp/development/ichiran.html')
         }),
-        baseLayerPicker: false,
-        geocoder: false,
-        homeButton: false
       });
       const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());  
     </script>
