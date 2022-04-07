@@ -37,25 +37,37 @@
       });
       viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      
+      let mousedown_time = null;
+      // マウスボタン押下
+      viewer.canvas.addEventListener('mousedown', function(e) {
+        // 右クリック時
+        if(event.which == 3){
+          mousedown_time = performance.now();
+        }
+      });
       /*
        * Click event 
        */
       viewer.canvas.addEventListener('contextmenu', function(e) {
-        var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
-        var ellipsoid = viewer.scene.globe.ellipsoid;
-        var cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
-        if (cartesian) {
-          //位置情報を管理するオブジェクトcartographicを取得
-          var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-          //緯度経度を小数点5桁で取得
-          var lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
-          var lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
-          alert(`lon=${lon}, lat=${lat}`);
-        } else {
-          alert('Globe was not picked');
+        const mouseup_time = performance.now();
+        console.log(`mouseup_time = ${mouseup_time}ms`)
+        if((mouseup_time - mousedown_time) < 1000) {
+          var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+          var ellipsoid = viewer.scene.globe.ellipsoid;
+          var cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+          if (cartesian) {
+            //位置情報を管理するオブジェクトcartographicを取得
+            var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            //緯度経度を小数点5桁で取得
+            var lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
+            alert(`lon=${lon}, lat=${lat}`);
+          } else {
+            alert('Globe was not picked');
+          }
         }
-    }, false
-);
+      });
     </script>
   </body>
 </html>
