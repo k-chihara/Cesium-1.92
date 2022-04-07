@@ -39,18 +39,33 @@
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
       
       let mousedown_time = 0;
+      let mem_lon = 0
+      let mem_lat = 0
       // マウスボタン押下
       viewer.canvas.addEventListener("pointerdown", function(e) {
         // 右クリック時
-        if(event.which == 3){
+        if(event.which === 3){
+          // 長押し時間の場合
           mousedown_time = performance.now();
+          
+          // クリック座標変化の場合
+          const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+          const ellipsoid = viewer.scene.globe.ellipsoid;
+          const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+          if (cartesian) {
+            //位置情報を管理するオブジェクトcartographicを取得
+            const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            //緯度経度を小数点5桁で取得
+            mem_lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
+            mem_lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
+          }
         }
       }, false);
       /*
        * Click event 
        */
       viewer.canvas.addEventListener('contextmenu', function(e) {
-        if(performance.now() - mousedown_time <= 100) {
+        //if(performance.now() - mousedown_time <= 100) {
           const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
           const ellipsoid = viewer.scene.globe.ellipsoid;
           const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
@@ -60,11 +75,13 @@
             //緯度経度を小数点5桁で取得
             const lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
             const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
-            alert(`lon=${lon}, lat=${lat}`);
+            if(mem_lon === lon && mem_lat === lat) {
+              alert(`lon=${lon}, lat=${lat}`);
+            }
           } else {
             alert('Globe was not picked');
           }
-        }
+        //}
       }, false);
     </script>
   </body>
