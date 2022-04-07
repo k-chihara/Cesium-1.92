@@ -40,7 +40,7 @@
       /*
        * Click event 
        */
-      viewer.canvas.addEventListener('click', function(e) {
+      viewer.canvas.addEventListener('contextmenu', function(e) {
         var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
         var ellipsoid = viewer.scene.globe.ellipsoid;
         var cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
