@@ -35,6 +35,7 @@
           credit : new Cesium.Credit('<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>', true)
         })
       });
+      viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
       document.getElementsByTagName('canvas')[0].addEventListener('contextmenu',function (e){
         console.log(e)
