@@ -41,13 +41,12 @@
       let mousedown_time = 0;
       // マウスボタン押下
       viewer.canvas.addEventListener("pointerdown", function(e) {
-        console.log(`aaa`);
-        //console.log(`event.which = ${event.which}`);
+        console.log(`event.which = ${event.which}`);
         // 右クリック時
-        //if(event.which == 3){
-        //  mousedown_time = performance.now();
-        //  console.log(`mousedown_time = ${mousedown_time}`);
-        //}
+        if(event.which == 3){
+          mousedown_time = performance.now();
+          console.log(`mousedown_time = ${mousedown_time}`);
+        }
       }, false);
       /*
        * Click event 
