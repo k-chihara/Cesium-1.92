@@ -50,7 +50,7 @@
        * Click event 
        */
       viewer.canvas.addEventListener('contextmenu', function(e) {
-        if(performance.now() - mousedown_time <= 00) {
+        if(performance.now() - mousedown_time <= 100) {
           const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
           const ellipsoid = viewer.scene.globe.ellipsoid;
           const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
