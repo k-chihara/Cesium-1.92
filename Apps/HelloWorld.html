@@ -44,14 +44,16 @@
         // 右クリック時
         if(event.which == 3){
           mousedown_time = performance.now();
+          console.log(`mousedown_time = ${mousedown_time}`);
         }
       });
       /*
        * Click event 
        */
       viewer.canvas.addEventListener('contextmenu', function(e) {
-        const difftime = performance.now() - mousedown_time
-        console.log(`mousedown time = ${difftime}ms`)
+        console.log(`mousedown_time = ${mousedown_time}`);
+        const difftime = performance.now() - mousedown_time;
+        console.log(`difftime = ${difftime}ms`);
         if(difftime <= 1000) {
           var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
           var ellipsoid = viewer.scene.globe.ellipsoid;
