@@ -40,13 +40,14 @@
       
       let mousedown_time = 0;
       // マウスボタン押下
-      document.getElementsByTagName('canvas')[0].addEventListener('mousedown', function(e) {
-        console.log(`event.which = ${event.which}`);
+      document.getElementsByTagName('canvas')[0].addEventListener('mousemove', function(e) {
+        console.log(`aaa`);
+        //console.log(`event.which = ${event.which}`);
         // 右クリック時
-        if(event.which == 3){
-          mousedown_time = performance.now();
-          console.log(`mousedown_time = ${mousedown_time}`);
-        }
+        //if(event.which == 3){
+        //  mousedown_time = performance.now();
+        //  console.log(`mousedown_time = ${mousedown_time}`);
+        //}
       }, false);
       /*
        * Click event 
