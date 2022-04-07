@@ -40,7 +40,7 @@
       
       let mousedown_time = 0;
       // マウスボタン押下
-      viewer.canvas.addEventListener('mousedown', function(e) {
+      document.getElementsByTagName('canvas')[0].addEventListener('mousedown', function(e) {
         console.log(`event.which = ${event.which}`);
         // 右クリック時
         if(event.which == 3){
@@ -51,7 +51,7 @@
       /*
        * Click event 
        */
-      viewer.canvas.addEventListener('mousedown', function(e) {
+      viewer.canvas.addEventListener('contextmenu', function(e) {
         console.log(`mousedown_time = ${mousedown_time}`);
         const difftime = performance.now() - mousedown_time;
         console.log(`difftime = ${difftime}ms`);
