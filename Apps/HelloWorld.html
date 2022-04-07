@@ -41,30 +41,25 @@
       let mousedown_time = 0;
       // マウスボタン押下
       viewer.canvas.addEventListener("pointerdown", function(e) {
-        console.log(`event.which = ${event.which}`);
         // 右クリック時
         if(event.which == 3){
           mousedown_time = performance.now();
-          console.log(`mousedown_time = ${mousedown_time}`);
         }
       }, false);
       /*
        * Click event 
        */
       viewer.canvas.addEventListener('contextmenu', function(e) {
-        console.log(`mousedown_time = ${mousedown_time}`);
-        const difftime = performance.now() - mousedown_time;
-        console.log(`difftime = ${difftime}ms`);
-        if(difftime <= 1000) {
-          var mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
-          var ellipsoid = viewer.scene.globe.ellipsoid;
-          var cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+        if(performance.now() - mousedown_time <= 500) {
+          const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+          const ellipsoid = viewer.scene.globe.ellipsoid;
+          const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
           if (cartesian) {
             //位置情報を管理するオブジェクトcartographicを取得
-            var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
             //緯度経度を小数点5桁で取得
-            var lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
-            var lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
+            const lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
+            const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
             alert(`lon=${lon}, lat=${lat}`);
           } else {
             alert('Globe was not picked');
