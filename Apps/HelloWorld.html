@@ -51,7 +51,7 @@
       /*
        * Click event 
        */
-      viewer.canvas.addEventListener('contextmenu', function(e) {
+      viewer.canvas.addEventListener('mousedown', function(e) {
         console.log(`mousedown_time = ${mousedown_time}`);
         const difftime = performance.now() - mousedown_time;
         console.log(`difftime = ${difftime}ms`);
