@@ -38,7 +38,7 @@
       //viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
       viewer.dataSources.add(Cesium.CzmlDataSource.load("./sample.czml"));
       console.log(viewer.dataSources);
-      viewer.zoomTo(viewer.dataSources[0]);
+      viewer.zoomTo(viewer.dataSources._dataSources[0]);
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
       
       let mousedown_time = 0;
