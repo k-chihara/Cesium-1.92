@@ -29,12 +29,19 @@
     <div id="cesiumContainer"></div>
     <script>
       // const viewer = new Cesium.Viewer("cesiumContainer");
-      const viewer = new Cesium.Viewer('cesiumContainer', {
-        imageryProvider: new Cesium.UrlTemplateImageryProvider({
-          url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
-          credit : new Cesium.Credit('<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>', true)
+      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5N2UyMjcwOS00MDY1LTQxYjEtYjZjMy00YTU0ZTg5MmViYWQiLCJpZCI6ODAzMDYsImlhdCI6MTY0Mjc0ODI2MX0.dkwAL1CcljUV7NA7fDbhXXnmyZQU_c-G5zRx8PtEcxE";
+      // Terrainの指定（EGM96、国土数値情報5m標高から生成した全国の地形モデル、5m標高データが無い場所は10m標高で補完している）
+      const viewer = new Cesium.Viewer("cesiumContainer", {
+        terrainProvider: new Cesium.CesiumTerrainProvider({
+          url: Cesium.IonResource.fromAssetId(770371)
         })
       });
+      //const viewer = new Cesium.Viewer('cesiumContainer', {
+      //  imageryProvider: new Cesium.UrlTemplateImageryProvider({
+      //    url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+      //    credit : new Cesium.Credit('<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>', true)
+      //  })
+      //});
       //viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
       viewer.dataSources.add(Cesium.CzmlDataSource.load("./sample.czml"));
       console.log(viewer.dataSources);
