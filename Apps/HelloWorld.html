@@ -48,6 +48,7 @@
       //});
       //viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
       const dataSource = Cesium.CzmlDataSource.load("./sample_1.czml")
+      let vehicleEntity;
       viewer.dataSources.add(dataSource);
       //console.log(viewer.dataSources);
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
