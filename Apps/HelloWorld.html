@@ -47,9 +47,13 @@
       //  })
       //});
       //viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
-      //viewer.dataSources.add(Cesium.CzmlDataSource.load("./sample.czml"));
+      viewer.dataSources.add(Cesium.CzmlDataSource.load("./sample.czml"));
       //console.log(viewer.dataSources);
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
+      // Follow the redSphere with the camera.
+      if (!viewer.trackedEntity) {
+        viewer.trackedEntity = vehicleEntity = dataSource.entities.getById("redSphere");
+      }
       
       //Add basic drag and drop functionality
       viewer.extend(Cesium.viewerDragDropMixin);
