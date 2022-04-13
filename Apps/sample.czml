@@ -12,8 +12,10 @@
 			"velocityReference": "#position"
 		},
 		"position": {
+		        "interpolationAlgorithm":"LAGRANGE",
+                        "interpolationDegree":1,
 			"epoch": "2022-03-30T10:00:00Z",
-			"cartographicDegrees": [
+			"cartesian": [
 				0,
 				130.363492,
 				33.591336,
