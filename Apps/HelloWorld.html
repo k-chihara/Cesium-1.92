@@ -25,8 +25,34 @@
       }
     </style>
   </head>
+  <style>
+    #cesiumContainer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    #toolbar { z-index: 1; position: fixed; top: 5px; left: 5px; }
+    html {
+      height: 100%;
+    }
+    body {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
   <body>
     <div id="cesiumContainer"></div>
+  <div id="toolbar">
+    <button id="walk" disabled>WalkView</button>
+  </div>
     <script>
       // const viewer = new Cesium.Viewer("cesiumContainer");
       Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5N2UyMjcwOS00MDY1LTQxYjEtYjZjMy00YTU0ZTg5MmViYWQiLCJpZCI6ODAzMDYsImlhdCI6MTY0Mjc0ODI2MX0.dkwAL1CcljUV7NA7fDbhXXnmyZQU_c-G5zRx8PtEcxE";
