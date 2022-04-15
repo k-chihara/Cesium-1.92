@@ -158,12 +158,16 @@
 
       document.getElementById('walk').onclick = () => {
         // Follow the redSphere with the camera.
+        /*
         if (!viewer.trackedEntity) {
           console.log(viewer.dataSources);
           viewer.trackedEntity = vehicleEntity = viewer.dataSources
             .get(0)
             .entities.getById('Vehicle');
         }
+        */
+        const entity = viewer.dataSources.get(0).entities.getById('Vehicle');
+        walkThrough.start(entity);
       };
     </script>
   </body>
