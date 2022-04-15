@@ -37,7 +37,12 @@
       padding: 0;
       font-family: sans-serif;
     }
-    #toolbar { z-index: 1; position: fixed; top: 5px; left: 5px; }
+    #toolbar {
+      z-index: 1;
+      position: fixed;
+      top: 5px;
+      left: 5px;
+    }
     html {
       height: 100%;
     }
@@ -50,20 +55,23 @@
   </style>
   <body>
     <div id="cesiumContainer"></div>
-  <div id="toolbar">
-    <button id="walk">WalkView</button>
-  </div>
+    <div id="toolbar">
+      <button id="walk">WalkView</button>
+    </div>
     <script>
       // const viewer = new Cesium.Viewer("cesiumContainer");
-      Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5N2UyMjcwOS00MDY1LTQxYjEtYjZjMy00YTU0ZTg5MmViYWQiLCJpZCI6ODAzMDYsImlhdCI6MTY0Mjc0ODI2MX0.dkwAL1CcljUV7NA7fDbhXXnmyZQU_c-G5zRx8PtEcxE";
+      Cesium.Ion.defaultAccessToken =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5N2UyMjcwOS00MDY1LTQxYjEtYjZjMy00YTU0ZTg5MmViYWQiLCJpZCI6ODAzMDYsImlhdCI6MTY0Mjc0ODI2MX0.dkwAL1CcljUV7NA7fDbhXXnmyZQU_c-G5zRx8PtEcxE';
       // Terrainの指定（EGM96、国土数値情報5m標高から生成した全国の地形モデル、5m標高データが無い場所は10m標高で補完している）
-      const viewer = new Cesium.Viewer("cesiumContainer", {
+      const viewer = new Cesium.Viewer('cesiumContainer', {
         terrainProvider: new Cesium.CesiumTerrainProvider({
           url: Cesium.IonResource.fromAssetId(770371)
         }),
         imageryProvider: new Cesium.UrlTemplateImageryProvider({
-          url : 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
-          credit : new Cesium.Credit('<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>')
+          url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
+          credit: new Cesium.Credit(
+            '<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>'
+          )
         })
       });
       //const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -73,57 +81,59 @@
       //  })
       //});
       //viewer.dataSources.add(Cesium.GeoJsonDataSource.load("https://abe-fumika.github.io/cesium_sample/Apps/SampleData/abe.geojson"));
-      const dataSource = Cesium.CzmlDataSource.load("./sample_1.czml")
+      const dataSource = Cesium.CzmlDataSource.load('./sample_1.czml');
       let vehicleEntity;
       viewer.dataSources.add(dataSource);
       //console.log(viewer.dataSources);
       //const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
-      // Follow the redSphere with the camera.
-      if (!viewer.trackedEntity) {
-        viewer.trackedEntity = vehicleEntity = dataSource.entities.getById("Vehicle");
-      }
-      
+
       //Add basic drag and drop functionality
       viewer.extend(Cesium.viewerDragDropMixin);
 
       //Show a pop-up alert if we encounter an error when processing a dropped file
-      viewer.dropError.addEventListener(function(dropHandler, name, error) {
+      viewer.dropError.addEventListener(function (dropHandler, name, error) {
         console.log(error);
         window.alert(error);
       });
-      
-      const tileset = new Cesium.Cesium3DTileset({
-        url: "https://plateau.geospatial.jp/main/data/3d-tiles/bldg/14130_kawasaki/notexture/tileset.json",
-      });
-      viewer.scene.primitives.add(tileset);
+
+      //const tileset = new Cesium.Cesium3DTileset({
+      //  url: 'https://plateau.geospatial.jp/main/data/3d-tiles/bldg/14130_kawasaki/notexture/tileset.json'
+      //});
+      //viewer.scene.primitives.add(tileset);
       let mousedown_time = 0;
-      let mem_lon = 0
-      let mem_lat = 0
+      let mem_lon = 0;
+      let mem_lat = 0;
       // マウスボタン押下
-      viewer.canvas.addEventListener("pointerdown", function(e) {
-        // 右クリック時
-        if(event.which === 3){
-          // 長押し時間の場合
-          mousedown_time = performance.now();
-          
-          // クリック座標変化の場合
-          const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
-          const ellipsoid = viewer.scene.globe.ellipsoid;
-          const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
-          if (cartesian) {
-            //位置情報を管理するオブジェクトcartographicを取得
-            const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-            //緯度経度を小数点5桁で取得
-            mem_lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
-            mem_lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
+      viewer.canvas.addEventListener(
+        'pointerdown',
+        function (e) {
+          // 右クリック時
+          if (event.which === 3) {
+            // 長押し時間の場合
+            mousedown_time = performance.now();
+
+            // クリック座標変化の場合
+            const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
+            const ellipsoid = viewer.scene.globe.ellipsoid;
+            const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
+            if (cartesian) {
+              //位置情報を管理するオブジェクトcartographicを取得
+              const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+              //緯度経度を小数点5桁で取得
+              mem_lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
+              mem_lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
+            }
           }
-        }
-      }, false);
+        },
+        false
+      );
       /*
-       * Click event 
+       * Click event
        */
-      viewer.canvas.addEventListener('contextmenu', function(e) {
-        //if(performance.now() - mousedown_time <= 100) {
+      viewer.canvas.addEventListener(
+        'contextmenu',
+        function (e) {
+          //if(performance.now() - mousedown_time <= 100) {
           const mousePosition = new Cesium.Cartesian2(e.clientX, e.clientY);
           const ellipsoid = viewer.scene.globe.ellipsoid;
           const cartesian = viewer.camera.pickEllipsoid(mousePosition, ellipsoid);
@@ -133,17 +143,25 @@
             //緯度経度を小数点5桁で取得
             const lon = Cesium.Math.toDegrees(cartographic.longitude).toFixed(5);
             const lat = Cesium.Math.toDegrees(cartographic.latitude).toFixed(5);
-            if(mem_lon === lon && mem_lat === lat) {
+            if (mem_lon === lon && mem_lat === lat) {
               alert(`lon=${lon}, lat=${lat}`);
             }
           } else {
             alert('Globe was not picked');
           }
-        //}
-      }, false);
-      
-      document.getElementById('walk')[0].addEventListener.onclick = () => {
-        console.log("on")
+          //}
+        },
+        false
+      );
+
+      document.getElementById('walk').onclick = () => {
+        // Follow the redSphere with the camera.
+        if (!viewer.trackedEntity) {
+          console.log(viewer.dataSources);
+          viewer.trackedEntity = vehicleEntity = viewer.dataSources
+            .get(0)
+            .entities.getById('Vehicle');
+        }
       };
     </script>
   </body>
