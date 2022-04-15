@@ -6,7 +6,7 @@ Cesium.WalkTrough = (() => {
   // 目線の高さ
   const HUMAN_EYE_HEIGHT = 1.65;
 
-  const CesiumWalkTrough = () => {
+  const CesiumWalkThrough = () => {
     // ウォークスルーモード
     this._mode = false;
     // CesiumViewer
@@ -21,7 +21,7 @@ Cesium.WalkTrough = (() => {
   };
 
   // 親クラスのイベントハンドラ関連付け
-  CesiumWalkTrough.prototype._connectEventHandlers = () => {
+  CesiumWalkThrough.prototype._connectEventHandlers = () => {
     this._disconectOnClockTick = this._cesiumViewer.clock.onTick.addEventListener(
       CesiumFirstPersonCameraController.prototype._onClockTick,
       this
@@ -35,7 +35,7 @@ Cesium.WalkTrough = (() => {
   let scratchTerrainConsideredNextPosition = new Cartesian3();
 
   // onTickイベント(カメラ座標、向き更新)
-  CesiumWalkTrough.prototype._onClockTick = (clock) => {
+  CesiumWalkThrough.prototype._onClockTick = (clock) => {
     if (!this._enabled) return;
 
     let currentCameraPosition = this._camera.position;
@@ -77,7 +77,7 @@ Cesium.WalkTrough = (() => {
   };
 
   // デフォルトの画面イベントの無効化
-  CesiumWalkTrough.prototype._enableDefaultScreenSpaceCameraController = function (enabled) {
+  CesiumWalkThrough.prototype._enableDefaultScreenSpaceCameraController = function (enabled) {
     const scene = this._cesiumViewer.scene;
 
     // disable the default event handlers
@@ -89,17 +89,17 @@ Cesium.WalkTrough = (() => {
   };
 
   // ウォークスルーモード開始
-  CesiumWalkTrough.prototype.start = (entitiy) => {
+  CesiumWalkThrough.prototype.start = (entitiy) => {
     this._enabled = true;
     this._enableDefaultScreenSpaceCameraController(false);
     this._entitiy = entitiy;
   };
 
   // ウォークスルーモード終了
-  CesiumWalkTrough.prototype.start = function () {
+  CesiumWalkThrough.prototype.end = function () {
     this._enabled = false;
     this._enableDefaultScreenSpaceCameraController(true);
     this._entitiy = null;
   };
-  return CesiumWalkTrough;
+  return CesiumWalkThrough;
 })();
