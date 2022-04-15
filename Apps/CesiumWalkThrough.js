@@ -1,12 +1,12 @@
 'use strict';
 
-Cesium.WalkTrough = (() => {
+Cesium.WalkThrough = (function () {
   const Cartesian3 = Cesium.Cartesian3;
 
   // 目線の高さ
   const HUMAN_EYE_HEIGHT = 1.65;
 
-  const CesiumWalkThrough = () => {
+  function CesiumWalkThrough(options) {
     // ウォークスルーモード
     this._mode = false;
     // CesiumViewer
@@ -18,12 +18,12 @@ Cesium.WalkTrough = (() => {
 
     // イベントハンドラ設定
     this._connectEventHandlers();
-  };
+  }
 
   // 親クラスのイベントハンドラ関連付け
   CesiumWalkThrough.prototype._connectEventHandlers = function () {
     this._disconectOnClockTick = this._cesiumViewer.clock.onTick.addEventListener(
-      CesiumFirstPersonCameraController.prototype._onClockTick,
+      CesiumWalkThrough.prototype._onClockTick,
       this
     );
   };
