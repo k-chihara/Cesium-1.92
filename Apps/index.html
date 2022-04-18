@@ -145,6 +145,31 @@
         },
         false
       );
+/*
+      const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      handler.setInputAction(function(click) {
+        const picked = viewer.scene.pick(click.position);
+        if (Cesium.defined(picked)) {
+          console.log(picked.id.id);
+        }
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+*/
+      const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+      handler.setInputAction(function(click) {
+        const result = [];
+        let hash = {};
+        const pickedPrimitives = viewer.scene.drillPick(click.position);
+        const length = pickedPrimitives.length;
+        for (let i = 0; i < length; i++) {
+          const picked = pickedPrimitives[i];
+          const entity = Cesium.defaultValue(picked.id, picked.primitive.id);
+          if (entity instanceof Cesium.Entity && !Cesium.defined(hash[entity.id])) {
+            result.push(entity);
+            hash[entity.id] = true;
+          }
+        }
+        console.log(result);
+      }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
       document.getElementById('walkview').onclick = () => {
         // Follow the Vehicle with the camera.
