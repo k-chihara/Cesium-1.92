@@ -72,6 +72,11 @@ Cesium.WalkThrough = (function () {
 
     const scratch = new Cesium.Matrix4();
 
+    // 時系列情報が終了した場合
+    if (!this._entitiy.position.getValue(clock.currentTime)) {
+      return;
+    }
+
     // カメラ座標、高さ、向きを取得
     this._getModelMatrix(this._entitiy, clock.currentTime, scratch);
 
