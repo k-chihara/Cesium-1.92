@@ -10,20 +10,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
-    <title>Hello World!</title>
-    <script src="../Build/Cesium/Cesium.js"></script>
-    <style>
-      @import url(../Build/Cesium/Widgets/widgets.css);
-      html,
-      body,
-      #cesiumContainer {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-    </style>
+    <title>sample Walk Through</title>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Widgets/widgets.css" rel="stylesheet"></head>
   </head>
   <style>
     #cesiumContainer {
@@ -56,7 +45,8 @@
   <body>
     <div id="cesiumContainer"></div>
     <div id="toolbar">
-      <button id="walk">WalkView</button>
+      <button id="walkview">WalkView</button>
+      <button id="skyview">SkyView</button>
     </div>
     <script src="./CesiumWalkThrough.js"></script>
     <script>
@@ -156,18 +146,15 @@
         false
       );
 
-      document.getElementById('walk').onclick = () => {
-        // Follow the redSphere with the camera.
-        /*
-        if (!viewer.trackedEntity) {
-          console.log(viewer.dataSources);
-          viewer.trackedEntity = vehicleEntity = viewer.dataSources
-            .get(0)
-            .entities.getById('Vehicle');
-        }
-        */
+      document.getElementById('walkview').onclick = () => {
+        // Follow the Vehicle with the camera.
         const entity = viewer.dataSources.get(0).entities.getById('Vehicle');
         walkThrough.start(entity);
+      };
+
+      document.getElementById('skyview').onclick = () => {
+        walkThrough.end();
+        viewer.scene.camera.flyHome();
       };
     </script>
   </body>

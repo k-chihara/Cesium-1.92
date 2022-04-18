@@ -1,10 +1,9 @@
 'use strict';
 
 Cesium.WalkThrough = (function () {
-  const Cartesian3 = Cesium.Cartesian3;
-
   // 目線の高さ
   const HUMAN_EYE_HEIGHT = 1.65;
+  //const HUMAN_EYE_HEIGHT = 0.1;
 
   function CesiumWalkThrough(options) {
     // ウォークスルーモード
@@ -13,8 +12,6 @@ Cesium.WalkThrough = (function () {
     this._cesiumViewer = options.cesiumViewer;
     // CesiumViewer.camera
     this._camera = this._cesiumViewer.camera;
-    // canvas
-    this._canvas = this._cesiumViewer.canvas;
 
     // イベントハンドラ設定
     this._connectEventHandlers();
@@ -28,52 +25,58 @@ Cesium.WalkThrough = (function () {
     );
   };
 
-  // Entityより取得できる座標
-  //let scratchDeltaPosition = new Cartesian3();
-  let scratchNextPosition = new Cartesian3();
-  let scratchNextCartographic = new Cesium.Cartographic();
-  let scratchTerrainConsideredNextPosition = new Cartesian3();
+  CesiumWalkThrough.prototype._getModelMatrix = function (entity, time, result) {
+    const matrix3Scratch = new Cesium.Matrix3();
+    const positionScratch = new Cesium.Cartesian3();
+    const orientationScratch = new Cesium.Quaternion();
 
-  // onTickイベント(カメラ座標、向き更新)
-  CesiumWalkThrough.prototype._onClockTick = function (clock) {
-    if (!this._enabled) return;
-
-    let currentCameraPosition = this._camera.position;
-
-    let scratchDeltaPosition = this._entitiy.position.getValue(clock.currentTime);
-
-    Cartesian3.add(currentCameraPosition, scratchDeltaPosition, scratchNextPosition);
+    let position = Cesium.Property.getValueOrUndefined(entity.position, time, positionScratch);
 
     // consider terrain height
-    let globe = this._cesiumViewer.scene.globe;
-    let ellipsoid = globe.ellipsoid;
+    const globe = this._cesiumViewer.scene.globe;
+    const ellipsoid = globe.ellipsoid;
 
-    // get height for next update position
-    ellipsoid.cartesianToCartographic(scratchNextPosition, scratchNextCartographic);
-
-    let height = globe.getHeight(scratchNextCartographic);
+    let cartographic = new Cesium.Cartographic();
+    cartographic = ellipsoid.cartesianToCartographic(position);
+    const height = globe.getHeight(cartographic);
 
     if (height === undefined) {
       console.warn('height is undefined!');
       return;
     }
 
-    if (height < 0) {
-      console.warn(`height is negative!`);
-    }
+    cartographic.height = height + HUMAN_EYE_HEIGHT;
 
-    scratchNextCartographic.height = height + HUMAN_EYE_HEIGHT;
+    position = ellipsoid.cartographicToCartesian(cartographic);
 
-    ellipsoid.cartographicToCartesian(
-      scratchNextCartographic,
-      scratchTerrainConsideredNextPosition
+    const orientation = Cesium.Property.getValueOrUndefined(
+      entity.orientation,
+      time,
+      orientationScratch
     );
+    if (!Cesium.defined(orientation)) {
+      result = Cesium.Transforms.eastNorthUpToFixedFrame(position, undefined, result);
+    } else {
+      result = Cesium.Matrix4.fromRotationTranslation(
+        Cesium.Matrix3.fromQuaternion(orientation, matrix3Scratch),
+        position,
+        result
+      );
+    }
+    return result;
+  };
 
-    this._camera.setView({
-      destination: scratchTerrainConsideredNextPosition,
-      orientation: this._entitiy.orientation.getValue(clock.currentTime),
-      endTransform: Cesium.Matrix4.IDENTITY
-    });
+  // onTickイベント(カメラ座標、向き更新)
+  CesiumWalkThrough.prototype._onClockTick = function (clock) {
+    if (!this._enabled) return;
+
+    const scratch = new Cesium.Matrix4();
+
+    // カメラ座標、高さ、向きを取得
+    this._getModelMatrix(this._entitiy, clock.currentTime, scratch);
+
+    // カメラ座標、高さ、向きを設定
+    this._camera.lookAtTransform(scratch, new Cesium.Cartesian3(-1, 0, 0));
   };
 
   // デフォルトの画面イベントの無効化
@@ -90,16 +93,18 @@ Cesium.WalkThrough = (function () {
 
   // ウォークスルーモード開始
   CesiumWalkThrough.prototype.start = function (entitiy) {
-    this._enabled = true;
     this._enableDefaultScreenSpaceCameraController(false);
     this._entitiy = entitiy;
+    this._entitiy.model.show = false;
+    this._enabled = true;
   };
 
   // ウォークスルーモード終了
   CesiumWalkThrough.prototype.end = function () {
     this._enabled = false;
-    this._enableDefaultScreenSpaceCameraController(true);
+    this._entitiy.model.show = true;
     this._entitiy = null;
+    this._enableDefaultScreenSpaceCameraController(true);
   };
   return CesiumWalkThrough;
 })();
